@@ -9,8 +9,10 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, `public`),
     open: true,
-    inline: false,
     port: 1337,
+  },
+  resolve: {
+    extensions: [`.js`, `.jsx`],
   },
   module: {
     rules: [
@@ -23,5 +25,5 @@ module.exports = {
       }
     ],
   },
-  devtool: `source-map`,
+  devtool: `source-map`
 };
