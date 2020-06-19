@@ -22,8 +22,8 @@ const WelcomeScreen = (props) => {
 };
 
 WelcomeScreen.propTypes = {
-  errorAmount: PropTypes.number,
-  onClickHandler: PropTypes.func
+  errorAmount: PropTypes.number.isRequired,
+  onClickHandler: PropTypes.func.isRequired
 };
 
 export default WelcomeScreen;

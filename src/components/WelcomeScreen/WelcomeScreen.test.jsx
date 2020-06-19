@@ -7,7 +7,7 @@ const errorAmounts = 3;
 describe(`WelcomeScreen snapshot tests`, () => {
   it(`WelcomeScreen should render errors amount === 3`, () => {
     const component = renderer
-      .create(<WelcomeScreen errorAmount={errorAmounts} />)
+      .create(<WelcomeScreen errorAmount={errorAmounts} onClickHandler={() => {}} />)
       .toJSON();
 
     expect(component).toMatchSnapshot();
