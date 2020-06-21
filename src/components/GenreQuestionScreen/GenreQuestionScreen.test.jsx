@@ -19,7 +19,7 @@ const question = {
 describe(`GenreQuestionScreen snapshot tests`, () => {
   it(`GenreQuestionScreen should render 4 melody`, () => {
     const component = renderer
-      .create(<GenreQuestionScreen question={question} />)
+      .create(<GenreQuestionScreen question={question} handleAnswer={() => {}} />)
       .toJSON();
 
     expect(component).toMatchSnapshot();

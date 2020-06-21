@@ -16,9 +16,13 @@ class App extends React.PureComponent {
   }
 
   _onNextStep() {
-    this.setState(({step: prevStep}) => ({
-      step: prevStep + 1
-    }));
+    this.setState(({step: prevStep}, props) => {
+      const nextStep = prevStep + 1;
+
+      return {
+        step: props.questions.length - 1 >= nextStep ? nextStep : -1
+      };
+    });
   }
 
   _getGameScreen() {
@@ -49,7 +53,12 @@ class App extends React.PureComponent {
         );
       }
       if (nextGameQuestion.type === `genre`) {
-        return <GenreQuestionScreen question={questions[step]} />;
+        return (
+          <GenreQuestionScreen
+            question={questions[step]}
+            handleAnswer={this._onNextStep}
+          />
+        );
       }
     }
 
@@ -74,7 +83,10 @@ class App extends React.PureComponent {
             />
           </Route>
           <Route exact path="/dev-genre">
-            <GenreQuestionScreen question={questions[1]} />
+            <GenreQuestionScreen
+              question={questions[1]}
+              handleAnswer={this._onNextStep}
+            />
           </Route>
         </Switch>
       </BrowserRouter>
