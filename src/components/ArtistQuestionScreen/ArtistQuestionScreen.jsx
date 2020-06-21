@@ -51,7 +51,7 @@ const ArtistQuestionScreen = (props) => {
                   />
                   <label
                     className="artist__name"
-                    htmlFor="answer-1"
+                    htmlFor={`answer-${index}`}
                     onClick={() => {
                       handleAnswer(question, answer);
                     }}

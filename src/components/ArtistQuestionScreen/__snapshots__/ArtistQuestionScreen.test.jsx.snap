@@ -76,7 +76,7 @@ exports[`ArtistQuestionScreen snapshot tests ArtistQuestionScreen should render 
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="answer-0"
           onClick={[Function]}
         >
           <img
@@ -122,7 +122,7 @@ exports[`ArtistQuestionScreen snapshot tests ArtistQuestionScreen should render 
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="answer-2"
           onClick={[Function]}
         >
           <img
