@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const ArtistQuestionScreen = (props) => {
-  const {question} = props;
+  const {
+    question,
+    handleAnswer
+  } = props;
   return (
     <section className="game game--artist">
       <header className="game__header">
@@ -46,7 +49,13 @@ const ArtistQuestionScreen = (props) => {
                     value={`artist-${index}`}
                     id={`answer-${index}`}
                   />
-                  <label className="artist__name" htmlFor="answer-1">
+                  <label
+                    className="artist__name"
+                    htmlFor="answer-1"
+                    onClick={() => {
+                      handleAnswer(question, answer);
+                    }}
+                  >
                     <img className="artist__picture" src={answer.pic} alt={answer.name} />
                     {answer.name}
                   </label>
@@ -70,7 +79,8 @@ ArtistQuestionScreen.propTypes = {
           name: PropTypes.string.isRequired,
         })
     ).isRequired
-  })
+  }),
+  handleAnswer: PropTypes.func.isRequired
 };
 
 export default ArtistQuestionScreen;

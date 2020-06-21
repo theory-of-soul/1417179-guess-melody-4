@@ -5,27 +5,82 @@ import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 
-const App = (props) => {
-  const {
-    errorAmount,
-    questions
-  } = props;
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <WelcomeScreen errorAmount={errorAmount} onClickHandler={() => {}} />
-        </Route>
-        <Route exact path="/dev-artist">
-          <ArtistQuestionScreen question={questions[0]} />
-        </Route>
-        <Route exact path="/dev-genre">
-          <GenreQuestionScreen question={questions[1]} />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
-};
+class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: -1
+    };
+    this._onNextStep = this._onNextStep.bind(this);
+    this._getGameScreen = this._getGameScreen.bind(this);
+  }
+
+  _onNextStep() {
+    this.setState(({step: prevStep}) => ({
+      step: prevStep + 1
+    }));
+  }
+
+  _getGameScreen() {
+    const {step} = this.state;
+    const {
+      errorAmount,
+      questions
+    } = this.props;
+
+    const nextGameQuestion = this.props.questions[step];
+
+    if (step === -1 || !nextGameQuestion) {
+      return (
+        <WelcomeScreen
+          errorAmount={errorAmount}
+          onClickHandler={this._onNextStep}
+        />
+      );
+    }
+
+    if (nextGameQuestion && nextGameQuestion.type) {
+      if (nextGameQuestion.type === `artist`) {
+        return (
+          <ArtistQuestionScreen
+            question={questions[step]}
+            handleAnswer={this._onNextStep}
+          />
+        );
+      }
+      if (nextGameQuestion.type === `genre`) {
+        return <GenreQuestionScreen question={questions[step]} />;
+      }
+    }
+
+    return null;
+  }
+
+  render() {
+    const {
+      questions
+    } = this.props;
+
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            {this._getGameScreen()}
+          </Route>
+          <Route exact path="/dev-artist">
+            <ArtistQuestionScreen
+              question={questions[0]}
+              handleAnswer={this._onNextStep}
+            />
+          </Route>
+          <Route exact path="/dev-genre">
+            <GenreQuestionScreen question={questions[1]} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+}
 
 const artistQuestionType = PropTypes.shape({
   type: PropTypes.string.isRequired,
