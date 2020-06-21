@@ -24,8 +24,30 @@ const App = (props) => {
   );
 };
 
+const questionScreenType = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  rightAnswer: PropTypes.string.isRequired,
+  answers: PropTypes.arrayOf(
+      PropTypes.shape({
+        pic: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+  ).isRequired
+});
+
+const genreScreenType = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  answers: PropTypes.arrayOf(
+      PropTypes.shape({
+        genre: PropTypes.string.isRequired,
+      })
+  ).isRequired
+});
+
 App.propTypes = {
-  errorAmount: PropTypes.number.isRequired
+  errorAmount: PropTypes.number.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.oneOfType([questionScreenType, genreScreenType])).isRequired,
 };
 
 export default App;
