@@ -6,7 +6,10 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 
 const App = (props) => {
-  const {errorAmount} = props;
+  const {
+    errorAmount,
+    questions
+  } = props;
   return (
     <BrowserRouter>
       <Switch>
@@ -14,17 +17,17 @@ const App = (props) => {
           <WelcomeScreen errorAmount={errorAmount} onClickHandler={() => {}} />
         </Route>
         <Route exact path="/dev-artist">
-          <ArtistQuestionScreen />
+          <ArtistQuestionScreen question={questions[0]} />
         </Route>
         <Route exact path="/dev-genre">
-          <GenreQuestionScreen />
+          <GenreQuestionScreen question={questions[1]} />
         </Route>
       </Switch>
     </BrowserRouter>
   );
 };
 
-const questionScreenType = PropTypes.shape({
+const artistQuestionType = PropTypes.shape({
   type: PropTypes.string.isRequired,
   rightAnswer: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(
@@ -35,7 +38,7 @@ const questionScreenType = PropTypes.shape({
   ).isRequired
 });
 
-const genreScreenType = PropTypes.shape({
+const genreQuestionType = PropTypes.shape({
   type: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(
@@ -47,7 +50,7 @@ const genreScreenType = PropTypes.shape({
 
 App.propTypes = {
   errorAmount: PropTypes.number.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.oneOfType([questionScreenType, genreScreenType])).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.oneOfType([artistQuestionType, genreQuestionType])).isRequired,
 };
 
 export default App;
