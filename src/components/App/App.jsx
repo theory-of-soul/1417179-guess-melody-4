@@ -5,7 +5,7 @@ import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 const App = (props) => {
   const {errorAmount} = props;
   return (
-    <WelcomeScreen errorAmount={errorAmount} />
+    <WelcomeScreen errorAmount={errorAmount} onClickHandler={() => {}} />
   );
 };
 

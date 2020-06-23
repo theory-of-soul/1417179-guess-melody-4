@@ -16,6 +16,7 @@ exports[`WelcomeScreen snapshot tests WelcomeScreen should render errors amount 
   </div>
   <button
     className="welcome__button"
+    onClick={[Function]}
   >
     <span
       className="visually-hidden"
