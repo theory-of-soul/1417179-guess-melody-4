@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
 import renderer from 'react-test-renderer';
-import App from './App';
+import ArtistQuestionScreen from "./ArtistQuestionScreen";
 
-const errorAmounts = 3;
-const questions = [{
+const question = {
   type: `artist`,
   rightAnswer: `Пелагея`,
   answers: [{
@@ -16,24 +15,12 @@ const questions = [{
     pic: `http://placehold.it/134x134`,
     name: `Lorde`
   }]
-}, {
-  type: `genre`,
-  genre: `инди-рок`,
-  answers: [{
-    genre: `инди-рок`,
-  }, {
-    genre: `рок`,
-  }, {
-    genre: `поп`,
-  }, {
-    genre: `рок`,
-  }]
-}];
+};
 
-describe(`App snapshot tests`, () => {
-  it(`App should show WelcomeScreen`, () => {
+describe(`ArtistQuestionScreen snapshot tests`, () => {
+  it(`ArtistQuestionScreen should render 3 singers`, () => {
     const component = renderer
-      .create(<App errorAmount={errorAmounts} questions={questions} />)
+      .create(<ArtistQuestionScreen question={question} handleAnswer={() => {}} />)
       .toJSON();
 
     expect(component).toMatchSnapshot();

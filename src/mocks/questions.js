@@ -1,9 +1,4 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import App from './App';
-
-const errorAmounts = 3;
-const questions = [{
+export default [{
   type: `artist`,
   rightAnswer: `Пелагея`,
   answers: [{
@@ -29,13 +24,3 @@ const questions = [{
     genre: `рок`,
   }]
 }];
-
-describe(`App snapshot tests`, () => {
-  it(`App should show WelcomeScreen`, () => {
-    const component = renderer
-      .create(<App errorAmount={errorAmounts} questions={questions} />)
-      .toJSON();
-
-    expect(component).toMatchSnapshot();
-  });
-});
