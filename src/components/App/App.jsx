@@ -5,6 +5,7 @@ import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 
+
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
