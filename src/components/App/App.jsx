@@ -4,7 +4,10 @@ import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
+import withAudioPlayer from "../../HOC/withAudioPlayer";
 
+const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
+const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -47,7 +50,7 @@ class App extends React.PureComponent {
     if (nextGameQuestion && nextGameQuestion.type) {
       if (nextGameQuestion.type === `artist`) {
         return (
-          <ArtistQuestionScreen
+          <ArtistQuestionScreenWithPlayer
             question={questions[step]}
             handleAnswer={this._onNextStep}
           />
@@ -78,13 +81,13 @@ class App extends React.PureComponent {
             {this._getGameScreen()}
           </Route>
           <Route exact path="/dev-artist">
-            <ArtistQuestionScreen
+            <ArtistQuestionScreenWithPlayer
               question={questions[0]}
               handleAnswer={this._onNextStep}
             />
           </Route>
           <Route exact path="/dev-genre">
-            <GenreQuestionScreen
+            <GenreQuestionScreenWithPlayer
               question={questions[1]}
               handleAnswer={this._onNextStep}
             />
@@ -112,6 +115,7 @@ const genreQuestionType = PropTypes.shape({
   answers: PropTypes.arrayOf(
       PropTypes.shape({
         genre: PropTypes.string.isRequired,
+        audioSrc: PropTypes.string.isRequired
       })
   ).isRequired
 });

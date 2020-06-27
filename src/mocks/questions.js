@@ -1,7 +1,7 @@
 export default [{
   type: `artist`,
   rightAnswer: `Пелагея`,
-  audio: `music/illenium_-_dont-give-up-on-me.mp3`,
+  audioSrc: `music/illenium_-_dont-give-up-on-me.mp3`,
   answers: [{
     pic: `http://placehold.it/134x134`,
     name: `Пелагея`

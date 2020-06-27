@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 const ArtistQuestionScreen = (props) => {
   const {
     question,
-    handleAnswer
+    handleAnswer,
+    renderAudioPlayer
   } = props;
+
   return (
     <section className="game game--artist">
       <header className="game__header">
@@ -28,14 +30,7 @@ const ArtistQuestionScreen = (props) => {
 
       <section className="game__screen">
         <h2 className="game__title">Кто исполняет эту песню?</h2>
-        <div className="game__track">
-          <div className="track">
-            <button className="track__button track__button--play" type="button"></button>
-            <div className="track__status">
-              <audio></audio>
-            </div>
-          </div>
-        </div>
+        {renderAudioPlayer(question.audioSrc, 0)}
 
         <form className="game__artist">
           {
@@ -73,6 +68,7 @@ ArtistQuestionScreen.propTypes = {
   question: PropTypes.shape({
     type: PropTypes.string.isRequired,
     rightAnswer: PropTypes.string.isRequired,
+    audioSrc: PropTypes.string.isRequired,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
           pic: PropTypes.string.isRequired,
@@ -80,7 +76,8 @@ ArtistQuestionScreen.propTypes = {
         })
     ).isRequired
   }),
-  handleAnswer: PropTypes.func.isRequired
+  handleAnswer: PropTypes.func.isRequired,
+  renderAudioPlayer: PropTypes.func.isRequired
 };
 
 export default ArtistQuestionScreen;
