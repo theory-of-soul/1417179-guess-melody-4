@@ -6,7 +6,7 @@ const withAudioPlayer = (Component) => {
     constructor(props) {
       super(props);
       this.state = {
-        activePlayerId: -1
+        activePlayerId: 0
       };
     }
 
