@@ -5,6 +5,7 @@ import App from './App';
 const errorAmounts = 3;
 const questions = [{
   type: `artist`,
+  audioSrc: ``,
   rightAnswer: `Пелагея`,
   answers: [{
     pic: `http://placehold.it/134x134`,
@@ -21,12 +22,16 @@ const questions = [{
   genre: `инди-рок`,
   answers: [{
     genre: `инди-рок`,
+    audioSrc: ``,
   }, {
     genre: `рок`,
+    audioSrc: ``,
   }, {
     genre: `поп`,
+    audioSrc: ``,
   }, {
     genre: `рок`,
+    audioSrc: ``,
   }]
 }];
 

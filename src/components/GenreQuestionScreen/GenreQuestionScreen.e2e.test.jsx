@@ -12,12 +12,16 @@ const question = {
   genre: `инди-рок`,
   answers: [{
     genre: `инди-рок`,
+    audioSrc: ``,
   }, {
     genre: `рок`,
+    audioSrc: ``,
   }, {
     genre: `поп`,
+    audioSrc: ``,
   }, {
     genre: `рок`,
+    audioSrc: ``,
   }]
 };
 
@@ -35,6 +39,7 @@ describe(`GenreQuestionScreen e2e`, () => {
         <GenreQuestionScreen
           question={question}
           handleAnswer={mockCallback}
+          renderAudioPlayer={() => null}
         />
     );
 

@@ -5,6 +5,7 @@ import ArtistQuestionScreen from "./ArtistQuestionScreen";
 const question = {
   type: `artist`,
   rightAnswer: `Пелагея`,
+  audioSrc: ``,
   answers: [{
     pic: `http://placehold.it/134x134`,
     name: `Пелагея`
@@ -20,7 +21,13 @@ const question = {
 describe(`ArtistQuestionScreen snapshot tests`, () => {
   it(`ArtistQuestionScreen should render 3 singers`, () => {
     const component = renderer
-      .create(<ArtistQuestionScreen question={question} handleAnswer={() => {}} />)
+      .create(
+          <ArtistQuestionScreen
+            question={question}
+            handleAnswer={() => {}}
+            renderAudioPlayer={() => null}
+          />
+      )
       .toJSON();
 
     expect(component).toMatchSnapshot();

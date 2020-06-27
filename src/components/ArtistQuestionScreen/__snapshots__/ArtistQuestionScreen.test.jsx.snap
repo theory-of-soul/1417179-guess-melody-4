@@ -1,139 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ArtistQuestionScreen snapshot tests ArtistQuestionScreen should render 3 singers 1`] = `
-<section
-  className="game game--artist"
->
-  <header
-    className="game__header"
+Array [
+  <h2
+    className="game__title"
   >
-    <a
-      className="game__back"
-      href="#"
-    >
-      <span
-        className="visually-hidden"
-      >
-        Сыграть ещё раз
-      </span>
-      <img
-        alt="Угадай мелодию"
-        className="game__logo"
-        src="img/melody-logo-ginger.png"
-      />
-    </a>
-    <div
-      className="game__mistakes"
-    >
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-    </div>
-  </header>
-  <section
-    className="game__screen"
+    Кто исполняет эту песню?
+  </h2>,
+  <form
+    className="game__artist"
   >
-    <h2
-      className="game__title"
-    >
-      Кто исполняет эту песню?
-    </h2>
     <div
-      className="game__track"
+      className="artist"
     >
-      <div
-        className="track"
+      <input
+        className="artist__input visually-hidden"
+        id="answer-0"
+        name="answer"
+        type="radio"
+        value="artist-0"
+      />
+      <label
+        className="artist__name"
+        htmlFor="answer-0"
+        onClick={[Function]}
       >
-        <button
-          className="track__button track__button--play"
-          type="button"
+        <img
+          alt="Пелагея"
+          className="artist__picture"
+          src="http://placehold.it/134x134"
         />
-        <div
-          className="track__status"
-        >
-          <audio />
-        </div>
-      </div>
+        Пелагея
+      </label>
     </div>
-    <form
-      className="game__artist"
+    <div
+      className="artist"
     >
-      <div
-        className="artist"
+      <input
+        className="artist__input visually-hidden"
+        id="answer-1"
+        name="answer"
+        type="radio"
+        value="artist-1"
+      />
+      <label
+        className="artist__name"
+        htmlFor="answer-1"
+        onClick={[Function]}
       >
-        <input
-          className="artist__input visually-hidden"
-          id="answer-0"
-          name="answer"
-          type="radio"
-          value="artist-0"
+        <img
+          alt="Краснознаменная дивизия имени моей бабушки"
+          className="artist__picture"
+          src="http://placehold.it/134x134"
         />
-        <label
-          className="artist__name"
-          htmlFor="answer-0"
-          onClick={[Function]}
-        >
-          <img
-            alt="Пелагея"
-            className="artist__picture"
-            src="http://placehold.it/134x134"
-          />
-          Пелагея
-        </label>
-      </div>
-      <div
-        className="artist"
+        Краснознаменная дивизия имени моей бабушки
+      </label>
+    </div>
+    <div
+      className="artist"
+    >
+      <input
+        className="artist__input visually-hidden"
+        id="answer-2"
+        name="answer"
+        type="radio"
+        value="artist-2"
+      />
+      <label
+        className="artist__name"
+        htmlFor="answer-2"
+        onClick={[Function]}
       >
-        <input
-          className="artist__input visually-hidden"
-          id="answer-1"
-          name="answer"
-          type="radio"
-          value="artist-1"
+        <img
+          alt="Lorde"
+          className="artist__picture"
+          src="http://placehold.it/134x134"
         />
-        <label
-          className="artist__name"
-          htmlFor="answer-1"
-          onClick={[Function]}
-        >
-          <img
-            alt="Краснознаменная дивизия имени моей бабушки"
-            className="artist__picture"
-            src="http://placehold.it/134x134"
-          />
-          Краснознаменная дивизия имени моей бабушки
-        </label>
-      </div>
-      <div
-        className="artist"
-      >
-        <input
-          className="artist__input visually-hidden"
-          id="answer-2"
-          name="answer"
-          type="radio"
-          value="artist-2"
-        />
-        <label
-          className="artist__name"
-          htmlFor="answer-2"
-          onClick={[Function]}
-        >
-          <img
-            alt="Lorde"
-            className="artist__picture"
-            src="http://placehold.it/134x134"
-          />
-          Lorde
-        </label>
-      </div>
-    </form>
-  </section>
-</section>
+        Lorde
+      </label>
+    </div>
+  </form>,
+]
 `;
