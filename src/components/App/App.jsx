@@ -4,7 +4,11 @@ import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
+import withAudioPlayer from "../../HOC/withAudioPlayer";
+import GameScreen from "../GameScreen/GameScreen";
 
+const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
+const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -47,18 +51,22 @@ class App extends React.PureComponent {
     if (nextGameQuestion && nextGameQuestion.type) {
       if (nextGameQuestion.type === `artist`) {
         return (
-          <ArtistQuestionScreen
-            question={questions[step]}
-            handleAnswer={this._onNextStep}
-          />
+          <GameScreen>
+            <ArtistQuestionScreenWithPlayer
+              question={questions[step]}
+              handleAnswer={this._onNextStep}
+            />
+          </GameScreen>
         );
       }
       if (nextGameQuestion.type === `genre`) {
         return (
-          <GenreQuestionScreen
-            question={questions[step]}
-            handleAnswer={this._onNextStep}
-          />
+          <GameScreen>
+            <GenreQuestionScreenWithPlayer
+              question={questions[step]}
+              handleAnswer={this._onNextStep}
+            />
+          </GameScreen>
         );
       }
     }
@@ -78,16 +86,20 @@ class App extends React.PureComponent {
             {this._getGameScreen()}
           </Route>
           <Route exact path="/dev-artist">
-            <ArtistQuestionScreen
-              question={questions[0]}
-              handleAnswer={this._onNextStep}
-            />
+            <GameScreen>
+              <ArtistQuestionScreenWithPlayer
+                question={questions[0]}
+                handleAnswer={this._onNextStep}
+              />
+            </GameScreen>
           </Route>
           <Route exact path="/dev-genre">
-            <GenreQuestionScreen
-              question={questions[1]}
-              handleAnswer={this._onNextStep}
-            />
+            <GameScreen>
+              <GenreQuestionScreenWithPlayer
+                question={questions[1]}
+                handleAnswer={this._onNextStep}
+              />
+            </GameScreen>
           </Route>
         </Switch>
       </BrowserRouter>
@@ -112,6 +124,7 @@ const genreQuestionType = PropTypes.shape({
   answers: PropTypes.arrayOf(
       PropTypes.shape({
         genre: PropTypes.string.isRequired,
+        audioSrc: PropTypes.string.isRequired
       })
   ).isRequired
 });

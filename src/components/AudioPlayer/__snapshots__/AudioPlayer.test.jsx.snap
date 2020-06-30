@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AudioPlayer snapshot tests AudioPlayer turn off state 1`] = `
+Array [
+  <button
+    className="track__button track__button--play"
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  />,
+  <div
+    className="track__status"
+  >
+    <audio
+      src=""
+    />
+  </div>,
+]
+`;
+
+exports[`AudioPlayer snapshot tests AudioPlayer turn on state 1`] = `
+Array [
+  <button
+    className="track__button track__button--pause"
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  />,
+  <div
+    className="track__status"
+  >
+    <audio
+      src=""
+    />
+  </div>,
+]
+`;

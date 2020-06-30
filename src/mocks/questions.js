@@ -1,6 +1,7 @@
 export default [{
   type: `artist`,
   rightAnswer: `Пелагея`,
+  audioSrc: `music/illenium_-_dont-give-up-on-me.mp3`,
   answers: [{
     pic: `http://placehold.it/134x134`,
     name: `Пелагея`
@@ -9,18 +10,22 @@ export default [{
     name: `Краснознаменная дивизия имени моей бабушки`
   }, {
     pic: `http://placehold.it/134x134`,
-    name: `Lorde`
+    name: `Illenium`
   }]
 }, {
   type: `genre`,
-  genre: `инди-рок`,
+  genre: `рок`,
   answers: [{
-    genre: `инди-рок`,
+    genre: `рок`,
+    audioSrc: `music/gorillaz_-_feel-good-inc.mp3`,
+  }, {
+    genre: `транс`,
+    audioSrc: `music/scooter_-_devil-s-symphony.mp3`,
   }, {
     genre: `рок`,
-  }, {
-    genre: `поп`,
+    audioSrc: `music/alyans_-_na-zare.mp3`
   }, {
     genre: `рок`,
+    audioSrc: `music/bon-jovi_-_it-s-my-life.mp3`,
   }]
 }];

@@ -9,6 +9,7 @@ Enzyme.configure({
 
 const question = {
   type: `artist`,
+  audioSrc: ``,
   rightAnswer: `Пелагея`,
   answers: [{
     pic: `http://placehold.it/134x134`,
@@ -34,6 +35,7 @@ describe(`ArtistQuestionScreen e2e`, () => {
         <ArtistQuestionScreen
           question={question}
           handleAnswer={mockCallback}
+          renderAudioPlayer={() => null}
         />
     );
     artistQuestionScreen.find(`.artist__name`).at(1).simulate(`click`);
