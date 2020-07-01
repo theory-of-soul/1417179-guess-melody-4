@@ -7,7 +7,7 @@ const children = <div/>;
 describe(`GameScreen snapshot tests`, () => {
   it(`GameScreen rendered template with children`, () => {
     const component = renderer
-      .create(<GameScreen>{children}</GameScreen>)
+      .create(<GameScreen userErrors={3}>{children}</GameScreen>)
       .toJSON();
 
     expect(component).toMatchSnapshot();
