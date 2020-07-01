@@ -28,4 +28,32 @@ export default [{
     genre: `рок`,
     audioSrc: `music/bon-jovi_-_it-s-my-life.mp3`,
   }]
+}, {
+  type: `artist`,
+  rightAnswer: `Illenium`,
+  audioSrc: `music/illenium_-_dont-give-up-on-me.mp3`,
+  answers: [{
+    pic: `http://placehold.it/134x134`,
+    name: `Пелагея`
+  }, {
+    pic: `http://placehold.it/134x134`,
+    name: `Краснознаменная дивизия имени моей бабушки`
+  }, {
+    pic: `http://placehold.it/134x134`,
+    name: `Illenium`
+  }]
+}, {
+  type: `artist`,
+  rightAnswer: `Illenium`,
+  audioSrc: `music/illenium_-_dont-give-up-on-me.mp3`,
+  answers: [{
+    pic: `http://placehold.it/134x134`,
+    name: `Пелагея`
+  }, {
+    pic: `http://placehold.it/134x134`,
+    name: `Краснознаменная дивизия имени моей бабушки`
+  }, {
+    pic: `http://placehold.it/134x134`,
+    name: `Illenium`
+  }]
 }];

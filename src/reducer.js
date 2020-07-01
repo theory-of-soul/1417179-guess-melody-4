@@ -3,7 +3,6 @@ import questions from "./mocks/questions";
 const actions = {
   INCREASE_ERRORS: `INCREASE_ERRORS`,
   NEXT_STEP: `NEXT_STEP`,
-  START_NEW_GAME: `START_NEW_GAME`
 };
 
 const initialState = {
@@ -25,12 +24,7 @@ export const actionCreator = {
       type: actions.NEXT_STEP,
       payload: 1
     };
-  },
-  startNewGame: () => {
-    return {
-      type: actions.START_NEW_GAME,
-    };
-  },
+  }
 };
 
 const extend = (state, extendState) => {
@@ -40,11 +34,13 @@ const extend = (state, extendState) => {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.NEXT_STEP: {
-      return extend(
-          state, {
-            step: state.step + action.payload
-          }
-      );
+      const nextStep = state.step + action.payload;
+      const nextQuestion = state.questions[nextStep];
+      const gameIsContinue = state.errors < state.maxErrors && nextQuestion;
+      const newState = gameIsContinue ? {
+        step: nextStep
+      } : initialState;
+      return extend(state, newState);
     }
     case actions.INCREASE_ERRORS: {
       return extend(
@@ -52,9 +48,6 @@ export const reducer = (state = initialState, action) => {
             errors: state.errors + action.payload
           }
       );
-    }
-    case actions.START_NEW_GAME: {
-      return initialState;
     }
     default:
       return state;

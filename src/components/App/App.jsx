@@ -27,23 +27,20 @@ class App extends React.PureComponent {
 
   _onUserClickAnswer(question, userAnswer) {
     const {
-      step,
-      questions,
       onCheckAnswer,
       onNextStep
     } = this.props;
 
     onCheckAnswer(question, userAnswer);
-    const nextStep = step + 1;
-    const gameIsContinue = questions.length - 1 >= nextStep;
-    onNextStep(gameIsContinue);
+    onNextStep();
   }
 
   _getGameScreen() {
     const {
       step,
       userErrors,
-      questions
+      questions,
+      errorAmount
     } = this.props;
 
     const nextGameQuestion = this.props.questions[step];
@@ -52,14 +49,14 @@ class App extends React.PureComponent {
     if (step === welcomeScreenStepNumber || !nextGameQuestion) {
       return (
         <WelcomeScreen
-          errorAmount={userErrors}
+          errorAmount={errorAmount}
           onClickHandler={this._onWelcomeButtonClick}
         />
       );
     }
 
     if (nextGameQuestion && nextGameQuestion.type) {
-      if (nextGameQuestion.type === `artist`) {
+      if (nextGameQuestion.type === GameType.ARTIST) {
         return (
           <GameScreen userErrors={userErrors}>
             <ArtistQuestionScreenWithPlayer
@@ -69,7 +66,7 @@ class App extends React.PureComponent {
           </GameScreen>
         );
       }
-      if (nextGameQuestion.type === `genre`) {
+      if (nextGameQuestion.type === GameType.GENRE) {
         return (
           <GameScreen userErrors={userErrors}>
             <GenreQuestionScreenWithPlayer
@@ -169,12 +166,8 @@ const isGenreAnswerCorrect = (question, userAnswer) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onNextStep: (gameIsContinue = true) => {
-      if (gameIsContinue) {
-        dispatch(actionCreator.nextStep());
-      } else {
-        dispatch(actionCreator.startNewGame());
-      }
+    onNextStep: () => {
+      dispatch(actionCreator.nextStep());
     },
     onCheckAnswer: (question, userAnswer) => {
       let answerIsCorrect = false;
