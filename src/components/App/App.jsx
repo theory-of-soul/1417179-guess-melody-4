@@ -8,6 +8,7 @@ import withAudioPlayer from "../../HOC/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
 import {actionCreator} from "../../reducer";
+import {GameType} from "./GameType";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -15,20 +16,33 @@ const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._onNextStep = this._onNextStep.bind(this);
+    this._onUserClickAnswer = this._onUserClickAnswer.bind(this);
     this._getGameScreen = this._getGameScreen.bind(this);
+    this._onWelcomeButtonClick = this._onWelcomeButtonClick.bind(this);
   }
 
-  _onNextStep() {
-    const nextStep = this.props.step + 1;
-    const gameIsContinue = this.props.questions.length - 1 >= nextStep;
-    this.props.onNextStep(gameIsContinue);
+  _onWelcomeButtonClick() {
+    this.props.onNextStep();
+  }
+
+  _onUserClickAnswer(question, userAnswer) {
+    const {
+      step,
+      questions,
+      onCheckAnswer,
+      onNextStep
+    } = this.props;
+
+    onCheckAnswer(question, userAnswer);
+    const nextStep = step + 1;
+    const gameIsContinue = questions.length - 1 >= nextStep;
+    onNextStep(gameIsContinue);
   }
 
   _getGameScreen() {
-    const {step} = this.props;
     const {
-      errorAmount,
+      step,
+      userErrors,
       questions
     } = this.props;
 
@@ -38,8 +52,8 @@ class App extends React.PureComponent {
     if (step === welcomeScreenStepNumber || !nextGameQuestion) {
       return (
         <WelcomeScreen
-          errorAmount={errorAmount}
-          onClickHandler={this._onNextStep}
+          errorAmount={userErrors}
+          onClickHandler={this._onWelcomeButtonClick}
         />
       );
     }
@@ -47,20 +61,20 @@ class App extends React.PureComponent {
     if (nextGameQuestion && nextGameQuestion.type) {
       if (nextGameQuestion.type === `artist`) {
         return (
-          <GameScreen>
+          <GameScreen userErrors={userErrors}>
             <ArtistQuestionScreenWithPlayer
               question={questions[step]}
-              handleAnswer={this._onNextStep}
+              handleAnswer={this._onUserClickAnswer}
             />
           </GameScreen>
         );
       }
       if (nextGameQuestion.type === `genre`) {
         return (
-          <GameScreen>
+          <GameScreen userErrors={userErrors}>
             <GenreQuestionScreenWithPlayer
               question={questions[step]}
-              handleAnswer={this._onNextStep}
+              handleAnswer={this._onUserClickAnswer}
             />
           </GameScreen>
         );
@@ -82,18 +96,18 @@ class App extends React.PureComponent {
             {this._getGameScreen()}
           </Route>
           <Route exact path="/dev-artist">
-            <GameScreen>
+            <GameScreen userErrors={1}>
               <ArtistQuestionScreenWithPlayer
                 question={questions[0]}
-                handleAnswer={this._onNextStep}
+                handleAnswer={this._onUserClickAnswer}
               />
             </GameScreen>
           </Route>
           <Route exact path="/dev-genre">
-            <GameScreen>
+            <GameScreen userErrors={2}>
               <GenreQuestionScreenWithPlayer
                 question={questions[1]}
-                handleAnswer={this._onNextStep}
+                handleAnswer={this._onUserClickAnswer}
               />
             </GameScreen>
           </Route>
@@ -129,23 +143,55 @@ App.propTypes = {
   errorAmount: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.oneOfType([artistQuestionType, genreQuestionType])).isRequired,
   step: PropTypes.number.isRequired,
-  onNextStep: PropTypes.func.isRequired
+  onNextStep: PropTypes.func.isRequired,
+  onCheckAnswer: PropTypes.func.isRequired,
+  userErrors: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     step: state.step,
+    userErrors: state.errors,
     questions: state.questions,
     errorAmount: state.maxErrors
   };
 };
+
+const isArtistAnswerCorrect = (question, userAnswer) => {
+  return userAnswer.name === question.rightAnswer;
+};
+
+const isGenreAnswerCorrect = (question, userAnswer) => {
+  return Object.values(userAnswer).every((checkedSong, i) => {
+    return checkedSong === (question.answers[i].genre === question.genre);
+  });
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    onNextStep: (gameIsContinue) => {
+    onNextStep: (gameIsContinue = true) => {
       if (gameIsContinue) {
         dispatch(actionCreator.nextStep());
       } else {
         dispatch(actionCreator.startNewGame());
+      }
+    },
+    onCheckAnswer: (question, userAnswer) => {
+      let answerIsCorrect = false;
+
+      switch (question.type) {
+        case GameType.ARTIST: {
+          answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
+          break;
+        }
+        case GameType.GENRE: {
+          answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
+          break;
+        }
+      }
+
+      if (!answerIsCorrect) {
+        dispatch(actionCreator.increaseErrors());
       }
     }
   };
