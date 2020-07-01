@@ -6,6 +6,8 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 import withAudioPlayer from "../../HOC/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
+import {connect} from "react-redux";
+import {actionCreator} from "../../reducer";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -13,33 +15,27 @@ const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      step: -1
-    };
     this._onNextStep = this._onNextStep.bind(this);
     this._getGameScreen = this._getGameScreen.bind(this);
   }
 
   _onNextStep() {
-    this.setState(({step: prevStep}, props) => {
-      const nextStep = prevStep + 1;
-
-      return {
-        step: props.questions.length - 1 >= nextStep ? nextStep : -1
-      };
-    });
+    const nextStep = this.props.step + 1;
+    const gameIsContinue = this.props.questions.length - 1 >= nextStep;
+    this.props.onNextStep(gameIsContinue);
   }
 
   _getGameScreen() {
-    const {step} = this.state;
+    const {step} = this.props;
     const {
       errorAmount,
       questions
     } = this.props;
 
     const nextGameQuestion = this.props.questions[step];
+    const welcomeScreenStepNumber = -1;
 
-    if (step === -1 || !nextGameQuestion) {
+    if (step === welcomeScreenStepNumber || !nextGameQuestion) {
       return (
         <WelcomeScreen
           errorAmount={errorAmount}
@@ -132,6 +128,28 @@ const genreQuestionType = PropTypes.shape({
 App.propTypes = {
   errorAmount: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.oneOfType([artistQuestionType, genreQuestionType])).isRequired,
+  step: PropTypes.number.isRequired,
+  onNextStep: PropTypes.func.isRequired
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    step: state.step,
+    questions: state.questions,
+    errorAmount: state.maxErrors
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onNextStep: (gameIsContinue) => {
+      if (gameIsContinue) {
+        dispatch(actionCreator.nextStep());
+      } else {
+        dispatch(actionCreator.startNewGame());
+      }
+    }
+  };
+};
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

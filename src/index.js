@@ -1,14 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App/App";
-import questions from "./mocks/questions";
+import {createStore} from "redux";
+import {reducer} from "./reducer";
+import {Provider} from "react-redux";
 
-const gameSettings = {
-  errorAmount: 3,
-  questions
-};
+const store = createStore(
+    reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
-    <App errorAmount={gameSettings.errorAmount} questions={gameSettings.questions} />,
+    <Provider store={store}>
+      <App/>
+    </Provider>,
     document.getElementById(`root`)
 );
