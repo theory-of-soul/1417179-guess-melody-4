@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GameMistakes snapshot tests GameMistakes render one error 1`] = `
+<div
+  className="game__mistakes"
+>
+  <div
+    className="wrong"
+  />
+</div>
+`;
+
+exports[`GameMistakes snapshot tests GameMistakes render three errors 1`] = `
+<div
+  className="game__mistakes"
+>
+  <div
+    className="wrong"
+  />
+  <div
+    className="wrong"
+  />
+  <div
+    className="wrong"
+  />
+</div>
+`;
+
+exports[`GameMistakes snapshot tests GameMistakes render two errors 1`] = `
+<div
+  className="game__mistakes"
+>
+  <div
+    className="wrong"
+  />
+  <div
+    className="wrong"
+  />
+</div>
+`;
+
+exports[`GameMistakes snapshot tests GameMistakes render zero error 1`] = `
+<div
+  className="game__mistakes"
+/>
+`;
