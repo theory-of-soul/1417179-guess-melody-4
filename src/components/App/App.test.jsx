@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './App';
+import {App} from './App';
 
 const errorAmounts = 3;
 const questions = [{
@@ -38,7 +38,16 @@ const questions = [{
 describe(`App snapshot tests`, () => {
   it(`App should show WelcomeScreen`, () => {
     const component = renderer
-      .create(<App errorAmount={errorAmounts} questions={questions} />)
+      .create(
+          <App
+            errorAmount={errorAmounts}
+            questions={questions}
+            step={-1}
+            onNextStep={() => {}}
+            onCheckAnswer={() => {}}
+            userErrors={0}
+          />
+      )
       .toJSON();
 
     expect(component).toMatchSnapshot();

@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import GameMistakes from "../GameMistakes/GameMistakes";
 
-const GameScreen = ({children}) => {
+const GameScreen = ({children, userErrors}) => {
 
   return (
     <section className="game game--artist">
@@ -12,15 +13,11 @@ const GameScreen = ({children}) => {
         </a>
 
         {/*  <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">*/}
-        {/*  <circle className="timer__line" cx="390" cy="390" r="370"*/}
+        {/*    <circle className="timer__line" cx="390" cy="390" r="370"*/}
         {/*    style="filter: url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>*/}
         {/*  </svg>*/}
 
-        <div className="game__mistakes">
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-        </div>
+        <GameMistakes amountMistakes={userErrors}/>
       </header>
 
       <section className="game__screen">
@@ -31,7 +28,8 @@ const GameScreen = ({children}) => {
 };
 
 GameScreen.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  userErrors: PropTypes.number.isRequired
 };
 
 export default GameScreen;
