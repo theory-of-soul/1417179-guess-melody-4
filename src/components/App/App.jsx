@@ -154,38 +154,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const isArtistAnswerCorrect = (question, userAnswer) => {
-  return userAnswer.name === question.rightAnswer;
-};
-
-const isGenreAnswerCorrect = (question, userAnswer) => {
-  return Object.values(userAnswer).every((checkedSong, i) => {
-    return checkedSong === (question.answers[i].genre === question.genre);
-  });
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     onNextStep: () => {
       dispatch(actionCreator.nextStep());
     },
     onCheckAnswer: (question, userAnswer) => {
-      let answerIsCorrect = false;
-
-      switch (question.type) {
-        case GameType.ARTIST: {
-          answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
-          break;
-        }
-        case GameType.GENRE: {
-          answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
-          break;
-        }
-      }
-
-      if (!answerIsCorrect) {
-        dispatch(actionCreator.increaseErrors());
-      }
+      dispatch(actionCreator.increaseErrors(question, userAnswer));
     }
   };
 };
