@@ -57,13 +57,9 @@ const extend = (state, extendState) => {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.NEXT_STEP: {
-      const nextStep = state.step + action.payload;
-      const nextQuestion = state.questions[nextStep];
-      const gameIsContinue = state.errors < state.maxErrors && nextQuestion;
-      const newState = gameIsContinue ? {
-        step: nextStep
-      } : initialState;
-      return extend(state, newState);
+      return extend(state, {
+        step: state.step + action.payload
+      });
     }
     case actions.INCREASE_ERRORS: {
       return extend(

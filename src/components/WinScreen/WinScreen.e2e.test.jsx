@@ -7,10 +7,19 @@ Enzyme.configure({
   adapter: new Adapter()
 });
 
+const questionAmount = 6;
+const errorAmount = 2;
+
 describe(`WinScreen e2e`, () => {
   it(`WinScreen clickHandler should be call once`, () => {
     const mockCallback = jest.fn();
-    const welcomeScreen = shallow(<WinScreen onClickReplayHandler={mockCallback} />);
+    const welcomeScreen = shallow(
+        <WinScreen
+          questionAmount={questionAmount}
+          errorAmount={errorAmount}
+          onClickReplayHandler={mockCallback}
+        />
+    );
     welcomeScreen.find(`.replay`).simulate(`click`);
 
     expect(mockCallback.mock.calls.length).toBe(1);
