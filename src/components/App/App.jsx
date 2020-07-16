@@ -9,8 +9,9 @@ import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
 import {actionCreator} from "../../reducer";
 import {GameType} from "./GameType";
+import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers";
 
-const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
+const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 
 class App extends React.PureComponent {
