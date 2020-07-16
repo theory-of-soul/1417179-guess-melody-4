@@ -4,6 +4,7 @@ import {GameType} from "./components/App/GameType";
 const actions = {
   INCREASE_ERRORS: `INCREASE_ERRORS`,
   NEXT_STEP: `NEXT_STEP`,
+  RESET_GAME: `RESET_GAME`,
 };
 
 const initialState = {
@@ -40,12 +41,13 @@ export const actionCreator = {
       payload: answerIsCorrect ? 0 : 1
     };
   },
-  nextStep: () => {
-    return {
-      type: actions.NEXT_STEP,
-      payload: 1
-    };
-  }
+  nextStep: () => ({
+    type: actions.NEXT_STEP,
+    payload: 1
+  }),
+  resetGame: () => ({
+    type: actions.RESET_GAME
+  })
 };
 
 const extend = (state, extendState) => {
@@ -69,6 +71,9 @@ export const reducer = (state = initialState, action) => {
             errors: state.errors + action.payload
           }
       );
+    }
+    case actions.RESET_GAME: {
+      return initialState;
     }
     default:
       return state;
