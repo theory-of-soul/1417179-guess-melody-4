@@ -3,6 +3,7 @@ import {reducer} from "./reducer";
 const actions = {
   INCREASE_ERRORS: `INCREASE_ERRORS`,
   NEXT_STEP: `NEXT_STEP`,
+  RESET_GAME: `RESET_GAME`
 };
 
 const questions = [{
@@ -95,27 +96,14 @@ describe(`Game reducer tests`, () => {
     });
   });
 
-  it(`reducer add next step have to return initialState if has questions but user can not make mistakes`, () => {
+  it(`after reset state reducer return initialState`, () => {
     expect(reducer({
       step: 0,
       questions,
       errors: 3,
       maxErrors: 3
     }, {
-      type: actions.NEXT_STEP,
-      payload: 1
-    })).toMatchObject(initialState);
-  });
-
-  it(`reducer add next step have to return initialState if game has no questions and user can not make mistakes`, () => {
-    expect(reducer({
-      step: 4,
-      questions,
-      errors: 3,
-      maxErrors: 3
-    }, {
-      type: actions.NEXT_STEP,
-      payload: 1
+      type: actions.RESET_GAME
     })).toMatchObject(initialState);
   });
 

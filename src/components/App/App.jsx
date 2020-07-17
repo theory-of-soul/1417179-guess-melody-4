@@ -4,12 +4,12 @@ import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
-import withAudioPlayer from "../../HOC/withAudioPlayer";
+import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
 import {actionCreator} from "../../reducer";
 import {GameType} from "./GameType";
-import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers";
+import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSelectAnswers";
 import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
 

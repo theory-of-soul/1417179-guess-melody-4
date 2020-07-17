@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hoc withAudioPlayer snapshot tests MockComponent with HOC 1`] = `
+<div>
+  <button
+    className="track__button track__button--pause"
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  />
+  <div
+    className="track__status"
+  >
+    <audio
+      src=""
+    />
+  </div>
+</div>
+`;

@@ -22,7 +22,11 @@ exports[`WinScreen snapshot tests WinScreen should render 6 questions ant 2 erro
   <p
     className="result__total"
   >
-    Вы ответили правильно на 6 вопросов и совершили 2 ошибки
+    Вы ответили правильно на 
+    6
+     вопросов и совершили 
+    2
+     ошибки
   </p>
   <button
     className="replay"
