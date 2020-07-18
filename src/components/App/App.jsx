@@ -13,7 +13,7 @@ import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
 import {actionCreator} from "../../reducers/game/game";
 import {createOperations} from "../../reducers/data/data";
-import {getQuestions} from "../../reducers/data/selectors";
+import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
@@ -55,8 +55,13 @@ class App extends React.PureComponent {
       step,
       userErrors,
       questions,
-      errorAmount
+      errorAmount,
+      hasError
     } = this.props;
+
+    if (hasError) {
+      return (<h1>Server error. Try again later.</h1>);
+    }
 
     const nextGameQuestion = this.props.questions[step];
     const welcomeScreenStepNumber = -1;
@@ -114,7 +119,8 @@ class App extends React.PureComponent {
 
   render() {
     const {
-      questions
+      questions,
+      hasError
     } = this.props;
 
     return (
@@ -176,6 +182,7 @@ App.propTypes = {
   onResetGame: PropTypes.func.isRequired,
   userErrors: PropTypes.number.isRequired,
   loadQuestions: PropTypes.func.isRequired,
+  hasError: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -184,6 +191,7 @@ const mapStateToProps = (state) => {
     userErrors: getUserErrors(state),
     questions: getQuestions(state),
     errorAmount: getMaxError(state),
+    hasError: getErrorInfo(state)
   };
 };
 
