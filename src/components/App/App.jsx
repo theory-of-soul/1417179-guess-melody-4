@@ -7,7 +7,7 @@ import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
-import {actionCreator} from "../../reducer";
+import {actionCreator, createOperations} from "../../reducer";
 import {GameType} from "./GameType";
 import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSelectAnswers";
 import FailScreen from "../FailScreen/FailScreen";
@@ -23,6 +23,10 @@ class App extends React.PureComponent {
     this._getGameScreen = this._getGameScreen.bind(this);
     this._onWelcomeButtonClick = this._onWelcomeButtonClick.bind(this);
     this._onReplayButtonClick = this._onReplayButtonClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadQuestions();
   }
 
   _onWelcomeButtonClick() {
@@ -167,7 +171,8 @@ App.propTypes = {
   onNextStep: PropTypes.func.isRequired,
   onCheckAnswer: PropTypes.func.isRequired,
   onResetGame: PropTypes.func.isRequired,
-  userErrors: PropTypes.number.isRequired
+  userErrors: PropTypes.number.isRequired,
+  loadQuestions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -189,6 +194,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onResetGame: () => {
       dispatch(actionCreator.resetGame());
+    },
+    loadQuestions: () => {
+      dispatch(createOperations.loadQuestions());
     }
   };
 };
