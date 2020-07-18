@@ -61,7 +61,7 @@ export const actionCreator = {
 
 export const createOperations = {
   loadQuestions: () => (dispatch, getState, api) => {
-    api
+    return api
       .get(`/questions`)
       .then((response) => {
         const questions = questionResponseAdapter(response.data);

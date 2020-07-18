@@ -1,9 +1,12 @@
-import {reducer} from "./reducer";
+import {createOperations, reducer} from "./reducer";
+import MockAdapter from "axios-mock-adapter";
+import api from "./api";
 
 const actions = {
   INCREASE_ERRORS: `INCREASE_ERRORS`,
   NEXT_STEP: `NEXT_STEP`,
-  RESET_GAME: `RESET_GAME`
+  RESET_GAME: `RESET_GAME`,
+  LOAD_QUESTIONS: `LOAD_QUESTIONS`
 };
 
 const questions = [{
@@ -127,5 +130,37 @@ describe(`Game reducer tests`, () => {
       errors: 1,
       maxErrors: 3
     });
+  });
+
+  it(`loaded questions added to store`, () => {
+    expect(reducer(initialState, {
+      type: actions.LOAD_QUESTIONS,
+      payload: questions
+    })).toMatchObject({
+      step: -1,
+      errors: 0,
+      maxErrors: 3,
+      questions
+    });
+  });
+
+  it(`question loader works correct`, () => {
+    const createdApi = api();
+    const apiMock = new MockAdapter(createdApi);
+    const dispatch = jest.fn();
+    const questionLoader = createOperations.loadQuestions();
+
+    apiMock
+      .onGet(`/questions`)
+      .reply(200, [{fake: true}]);
+
+    questionLoader(dispatch, () => {}, createdApi)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: actions.LOAD_QUESTIONS,
+          payload: [{fake: true}],
+        });
+      });
   });
 });
