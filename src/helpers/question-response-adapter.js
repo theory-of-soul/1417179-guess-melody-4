@@ -35,8 +35,10 @@ const genreQuestionAdapter = (responseQuestion) => {
   };
 };
 
-export const questionResponseAdapter = (questionResponse) => {
+const questionResponseAdapter = (questionResponse) => {
   return questionResponse.map((question) => {
     return question.type === `artist` ? artistQuestionAdapter(question) : genreQuestionAdapter(question);
   });
 };
+
+export default questionResponseAdapter;

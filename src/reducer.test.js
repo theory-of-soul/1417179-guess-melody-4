@@ -69,7 +69,7 @@ const questions = [{
 const initialState = {
   errors: 0,
   step: -1,
-  questions,
+  questions: [],
   maxErrors: 3
 };
 
@@ -96,7 +96,7 @@ describe(`Game reducer tests`, () => {
     });
   });
 
-  it(`after reset state reducer return initialState`, () => {
+  it(`after reset state reducer return initialState with questions`, () => {
     expect(reducer({
       step: 0,
       questions,
@@ -104,7 +104,12 @@ describe(`Game reducer tests`, () => {
       maxErrors: 3
     }, {
       type: actions.RESET_GAME
-    })).toMatchObject(initialState);
+    })).toMatchObject({
+      step: -1,
+      errors: 0,
+      maxErrors: 3,
+      questions
+    });
   });
 
   it(`reducer increase errors`, () => {

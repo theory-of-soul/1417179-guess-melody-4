@@ -1,5 +1,5 @@
 import {GameType} from "./components/App/GameType";
-import {questionResponseAdapter} from "./helpers/question-response-adapter";
+import questionResponseAdapter from "./helpers/question-response-adapter";
 import extend from "./helpers/object-extend";
 
 const actions = {
