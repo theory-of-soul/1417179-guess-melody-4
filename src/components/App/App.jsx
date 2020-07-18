@@ -7,11 +7,12 @@ import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
-import {actionCreator, createOperations} from "../../reducer";
 import {GameType} from "./GameType";
 import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSelectAnswers";
 import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
+import {actionCreator} from "../../reducers/game/game";
+import {createOperations} from "../../reducers/data/data";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);

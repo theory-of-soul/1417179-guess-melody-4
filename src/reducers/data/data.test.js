@@ -1,11 +1,8 @@
-import {createOperations, reducer} from "./reducer";
+import {createOperations, data as reducer} from "./data";
 import MockAdapter from "axios-mock-adapter";
-import api from "./api";
+import api from "../../api";
 
 const actions = {
-  INCREASE_ERRORS: `INCREASE_ERRORS`,
-  NEXT_STEP: `NEXT_STEP`,
-  RESET_GAME: `RESET_GAME`,
   LOAD_QUESTIONS: `LOAD_QUESTIONS`
 };
 
@@ -70,10 +67,7 @@ const questions = [{
 }];
 
 const initialState = {
-  errors: 0,
-  step: -1,
-  questions: [],
-  maxErrors: 3
+  questions: []
 };
 
 
@@ -82,64 +76,11 @@ describe(`Game reducer tests`, () => {
     expect(reducer(undefined, {})).toMatchObject(initialState);
   });
 
-  it(`reducer add next step if game has questions and user can make mistakes`, () => {
-    expect(reducer({
-      step: -1,
-      questions,
-      errors: 0,
-      maxErrors: 3
-    }, {
-      type: actions.NEXT_STEP,
-      payload: 1
-    })).toMatchObject({
-      step: 0,
-      questions,
-      errors: 0,
-      maxErrors: 3
-    });
-  });
-
-  it(`after reset state reducer return initialState with questions`, () => {
-    expect(reducer({
-      step: 0,
-      questions,
-      errors: 3,
-      maxErrors: 3
-    }, {
-      type: actions.RESET_GAME
-    })).toMatchObject({
-      step: -1,
-      errors: 0,
-      maxErrors: 3,
-      questions
-    });
-  });
-
-  it(`reducer increase errors`, () => {
-    expect(reducer({
-      step: 0,
-      questions,
-      errors: 0,
-      maxErrors: 3
-    }, {
-      type: actions.INCREASE_ERRORS,
-      payload: 1
-    })).toMatchObject({
-      step: 0,
-      questions,
-      errors: 1,
-      maxErrors: 3
-    });
-  });
-
   it(`loaded questions added to store`, () => {
     expect(reducer(initialState, {
       type: actions.LOAD_QUESTIONS,
       payload: questions
     })).toMatchObject({
-      step: -1,
-      errors: 0,
-      maxErrors: 3,
       questions
     });
   });
