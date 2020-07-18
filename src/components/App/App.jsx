@@ -13,6 +13,8 @@ import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
 import {actionCreator} from "../../reducers/game/game";
 import {createOperations} from "../../reducers/data/data";
+import {getQuestions} from "../../reducers/data/selectors";
+import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -173,15 +175,15 @@ App.propTypes = {
   onCheckAnswer: PropTypes.func.isRequired,
   onResetGame: PropTypes.func.isRequired,
   userErrors: PropTypes.number.isRequired,
-  loadQuestions: PropTypes.func.isRequired
+  loadQuestions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    step: state.step,
-    userErrors: state.errors,
-    questions: state.questions,
-    errorAmount: state.maxErrors
+    step: getStep(state),
+    userErrors: getUserErrors(state),
+    questions: getQuestions(state),
+    errorAmount: getMaxError(state),
   };
 };
 
