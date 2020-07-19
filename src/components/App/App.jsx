@@ -15,6 +15,8 @@ import {actionCreator} from "../../reducers/game/game";
 import {createOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
+import {isUserAuth} from "../../reducers/user/selectors";
+import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -56,7 +58,8 @@ class App extends React.PureComponent {
       userErrors,
       questions,
       errorAmount,
-      hasError
+      hasError,
+      userAlreadyAuth
     } = this.props;
 
     if (hasError) {
@@ -82,12 +85,14 @@ class App extends React.PureComponent {
     }
 
     if (!nextGameQuestion) {
-      return (
+      return userAlreadyAuth ? (
         <WinScreen
           questionAmount={questions.length}
           errorAmount={userErrors}
           onClickReplayHandler={this._onReplayButtonClick}
         />
+      ) : (
+        <AuthorizationScreen/>
       );
     }
 
@@ -120,7 +125,6 @@ class App extends React.PureComponent {
   render() {
     const {
       questions,
-      hasError
     } = this.props;
 
     return (
@@ -182,7 +186,8 @@ App.propTypes = {
   onResetGame: PropTypes.func.isRequired,
   userErrors: PropTypes.number.isRequired,
   loadQuestions: PropTypes.func.isRequired,
-  hasError: PropTypes.bool.isRequired
+  hasError: PropTypes.bool.isRequired,
+  userAlreadyAuth: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -191,7 +196,8 @@ const mapStateToProps = (state) => {
     userErrors: getUserErrors(state),
     questions: getQuestions(state),
     errorAmount: getMaxError(state),
-    hasError: getErrorInfo(state)
+    hasError: getErrorInfo(state),
+    userAlreadyAuth: isUserAuth(state)
   };
 };
 

@@ -1,7 +1,8 @@
 import extend from "../../helpers/object-extend";
 
 export const authorizationStatus = {
-  NO_AUTH: `NO_AUTH`
+  NO_AUTH: `NO_AUTH`,
+  AUTH: `AUTH`
 };
 
 const actions = {

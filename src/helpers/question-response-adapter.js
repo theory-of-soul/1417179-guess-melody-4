@@ -1,3 +1,5 @@
+import {GameType} from "../components/App/GameType";
+
 const artistQuestionAdapter = (responseQuestion) => {
   const {
     type,
@@ -37,7 +39,7 @@ const genreQuestionAdapter = (responseQuestion) => {
 
 const questionResponseAdapter = (questionResponse) => {
   return questionResponse.map((question) => {
-    return question.type === `artist` ? artistQuestionAdapter(question) : genreQuestionAdapter(question);
+    return question.type === GameType.ARTIST ? artistQuestionAdapter(question) : genreQuestionAdapter(question);
   });
 };
 
