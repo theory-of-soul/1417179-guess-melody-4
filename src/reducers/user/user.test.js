@@ -1,4 +1,6 @@
-import {user as reducer} from "../user/user";
+import {user as reducer, userOperations} from "../user/user";
+import api from "../../api";
+import MockAdapter from "axios-mock-adapter";
 
 const authorizationStatus = {
   NO_AUTH: `NO_AUTH`,
@@ -25,5 +27,25 @@ describe(`Game reducer tests`, () => {
     })).toMatchObject({
       status: authorizationStatus.AUTH
     });
+  });
+
+  it(`user logged`, () => {
+    const createdApi = api();
+    const apiMock = new MockAdapter(createdApi);
+    const dispatch = jest.fn();
+    const questionLoader = userOperations.login(`fake@email.com`, `fakePassword`);
+
+    apiMock
+      .onPost(`/login`)
+      .reply(200, [{fake: true}]);
+
+    questionLoader(dispatch, () => {}, createdApi)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: actions.UPDATE_STATUS,
+          payload: authorizationStatus.AUTH,
+        });
+      });
   });
 });

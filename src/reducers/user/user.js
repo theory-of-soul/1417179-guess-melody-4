@@ -26,7 +26,18 @@ export const userOperations = {
       .get(`/login`)
       .then((response) => response)
       .catch((error) => error);
-  }
+  },
+  login: (email, password) => (dispatch, getState, api) => {
+    return api
+      .post(`/login`, {
+        email,
+        password
+      })
+      .then(() => {
+        dispatch(actionCreator.updateUserAuthStatus(authorizationStatus.AUTH));
+      })
+      .catch((error) => error);
+  },
 };
 
 export const user = (state = initialState, action) => {
