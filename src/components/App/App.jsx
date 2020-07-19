@@ -17,6 +17,7 @@ import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 import {isUserAuth} from "../../reducers/user/selectors";
 import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
+import {userOperations} from "../../reducers/user/user";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -59,7 +60,8 @@ class App extends React.PureComponent {
       questions,
       errorAmount,
       hasError,
-      userAlreadyAuth
+      userAlreadyAuth,
+      loginUser
     } = this.props;
 
     if (hasError) {
@@ -92,7 +94,10 @@ class App extends React.PureComponent {
           onClickReplayHandler={this._onReplayButtonClick}
         />
       ) : (
-        <AuthorizationScreen/>
+        <AuthorizationScreen
+          onClickReplayHandler={this._onReplayButtonClick}
+          onSubmitHandler={loginUser}
+        />
       );
     }
 
@@ -188,6 +193,7 @@ App.propTypes = {
   loadQuestions: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
   userAlreadyAuth: PropTypes.bool.isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -214,6 +220,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadQuestions: () => {
       dispatch(createOperations.loadQuestions());
+    },
+    loginUser: (email, password) => {
+      dispatch(userOperations.login(email, password));
     }
   };
 };

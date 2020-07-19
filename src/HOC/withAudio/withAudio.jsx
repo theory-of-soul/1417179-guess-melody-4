@@ -74,7 +74,6 @@ const withAudio = (Component) => {
     }
   }
 
-
   WithAudio.propTypes = {
     src: PropTypes.string.isRequired,
     isPlaying: PropTypes.bool.isRequired,

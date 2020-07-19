@@ -50,6 +50,7 @@ describe(`App snapshot tests`, () => {
             hasError={false}
             loadQuestions={() => {}}
             userAlreadyAuth={false}
+            loginUser={() => {}}
           />
       )
       .toJSON();
@@ -71,6 +72,7 @@ describe(`App snapshot tests`, () => {
             loadQuestions={() => {}}
             hasError={false}
             userAlreadyAuth={false}
+            loginUser={() => {}}
           />
       )
       .toJSON();

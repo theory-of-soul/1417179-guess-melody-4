@@ -27,6 +27,7 @@ exports[`App snapshot tests App should show Auth screen 1`] = `
   <form
     action=""
     className="login__form"
+    onSubmit={[Function]}
   >
     <p
       className="login__field"
@@ -57,7 +58,7 @@ exports[`App snapshot tests App should show Auth screen 1`] = `
         className="login__input"
         id="password"
         name="password"
-        type="text"
+        type="password"
       />
       <span
         className="login__error"
@@ -74,6 +75,7 @@ exports[`App snapshot tests App should show Auth screen 1`] = `
   </form>
   <button
     className="replay"
+    onClick={[Function]}
     type="button"
   >
     Сыграть ещё раз
