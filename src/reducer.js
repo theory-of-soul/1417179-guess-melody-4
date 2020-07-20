@@ -1,8 +1,10 @@
 import questions from "./mocks/questions";
+import {GameType} from "./components/App/GameType";
 
 const actions = {
   INCREASE_ERRORS: `INCREASE_ERRORS`,
   NEXT_STEP: `NEXT_STEP`,
+  RESET_GAME: `RESET_GAME`,
 };
 
 const initialState = {
@@ -12,19 +14,40 @@ const initialState = {
   maxErrors: 3
 };
 
+const isArtistAnswerCorrect = (question, userAnswer) => userAnswer.name === question.rightAnswer;
+
+const isGenreAnswerCorrect = (question, userAnswer) => Object
+  .values(userAnswer)
+  .every((checkedSong, i) => checkedSong === (question.answers[i].genre === question.genre));
+
+
 export const actionCreator = {
-  increaseErrors: () => {
+  increaseErrors: (question, userAnswer) => {
+    let answerIsCorrect = false;
+
+    switch (question.type) {
+      case GameType.ARTIST: {
+        answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
+        break;
+      }
+      case GameType.GENRE: {
+        answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
+        break;
+      }
+    }
+
     return {
       type: actions.INCREASE_ERRORS,
-      payload: 1
+      payload: answerIsCorrect ? 0 : 1
     };
   },
-  nextStep: () => {
-    return {
-      type: actions.NEXT_STEP,
-      payload: 1
-    };
-  }
+  nextStep: () => ({
+    type: actions.NEXT_STEP,
+    payload: 1
+  }),
+  resetGame: () => ({
+    type: actions.RESET_GAME
+  })
 };
 
 const extend = (state, extendState) => {
@@ -34,13 +57,9 @@ const extend = (state, extendState) => {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.NEXT_STEP: {
-      const nextStep = state.step + action.payload;
-      const nextQuestion = state.questions[nextStep];
-      const gameIsContinue = state.errors < state.maxErrors && nextQuestion;
-      const newState = gameIsContinue ? {
-        step: nextStep
-      } : initialState;
-      return extend(state, newState);
+      return extend(state, {
+        step: state.step + action.payload
+      });
     }
     case actions.INCREASE_ERRORS: {
       return extend(
@@ -48,6 +67,9 @@ export const reducer = (state = initialState, action) => {
             errors: state.errors + action.payload
           }
       );
+    }
+    case actions.RESET_GAME: {
+      return initialState;
     }
     default:
       return state;

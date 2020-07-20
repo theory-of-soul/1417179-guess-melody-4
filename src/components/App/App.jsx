@@ -4,13 +4,16 @@ import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
-import withAudioPlayer from "../../HOC/withAudioPlayer";
+import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
 import {actionCreator} from "../../reducer";
 import {GameType} from "./GameType";
+import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSelectAnswers";
+import FailScreen from "../FailScreen/FailScreen";
+import WinScreen from "../WinScreen/WinScreen";
 
-const GenreQuestionScreenWithPlayer = withAudioPlayer(GenreQuestionScreen);
+const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
 
 class App extends React.PureComponent {
@@ -19,10 +22,15 @@ class App extends React.PureComponent {
     this._onUserClickAnswer = this._onUserClickAnswer.bind(this);
     this._getGameScreen = this._getGameScreen.bind(this);
     this._onWelcomeButtonClick = this._onWelcomeButtonClick.bind(this);
+    this._onReplayButtonClick = this._onReplayButtonClick.bind(this);
   }
 
   _onWelcomeButtonClick() {
     this.props.onNextStep();
+  }
+
+  _onReplayButtonClick() {
+    this.props.onResetGame();
   }
 
   _onUserClickAnswer(question, userAnswer) {
@@ -46,11 +54,27 @@ class App extends React.PureComponent {
     const nextGameQuestion = this.props.questions[step];
     const welcomeScreenStepNumber = -1;
 
-    if (step === welcomeScreenStepNumber || !nextGameQuestion) {
+    if (step === welcomeScreenStepNumber) {
       return (
         <WelcomeScreen
           errorAmount={errorAmount}
           onClickHandler={this._onWelcomeButtonClick}
+        />
+      );
+    }
+
+    if (userErrors >= errorAmount) {
+      return (
+        <FailScreen onClickReplayHandler={this._onReplayButtonClick}/>
+      );
+    }
+
+    if (!nextGameQuestion) {
+      return (
+        <WinScreen
+          questionAmount={questions.length}
+          errorAmount={userErrors}
+          onClickReplayHandler={this._onReplayButtonClick}
         />
       );
     }
@@ -142,6 +166,7 @@ App.propTypes = {
   step: PropTypes.number.isRequired,
   onNextStep: PropTypes.func.isRequired,
   onCheckAnswer: PropTypes.func.isRequired,
+  onResetGame: PropTypes.func.isRequired,
   userErrors: PropTypes.number.isRequired
 };
 
@@ -154,38 +179,16 @@ const mapStateToProps = (state) => {
   };
 };
 
-const isArtistAnswerCorrect = (question, userAnswer) => {
-  return userAnswer.name === question.rightAnswer;
-};
-
-const isGenreAnswerCorrect = (question, userAnswer) => {
-  return Object.values(userAnswer).every((checkedSong, i) => {
-    return checkedSong === (question.answers[i].genre === question.genre);
-  });
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     onNextStep: () => {
       dispatch(actionCreator.nextStep());
     },
     onCheckAnswer: (question, userAnswer) => {
-      let answerIsCorrect = false;
-
-      switch (question.type) {
-        case GameType.ARTIST: {
-          answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
-          break;
-        }
-        case GameType.GENRE: {
-          answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
-          break;
-        }
-      }
-
-      if (!answerIsCorrect) {
-        dispatch(actionCreator.increaseErrors());
-      }
+      dispatch(actionCreator.increaseErrors(question, userAnswer));
+    },
+    onResetGame: () => {
+      dispatch(actionCreator.resetGame());
     }
   };
 };

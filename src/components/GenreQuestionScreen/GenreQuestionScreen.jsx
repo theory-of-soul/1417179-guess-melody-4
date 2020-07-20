@@ -1,79 +1,54 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class GenreQuestionScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userAnswers: {
-        0: false,
-        1: false,
-        2: false,
-        3: false
-      }
-    };
+const GenreQuestionScreen = (props) => {
+  const {
+    question,
+    handleAnswer,
+    renderAudioPlayer,
+    answers: userAnswers,
+    onChooseAnswer
+  } = props;
 
-    this._onUserClickHandler = this._onUserClickHandler.bind(this);
-  }
-
-  _onUserClickHandler(answerIndex) {
-    this.setState(({userAnswers}) => ({
-      userAnswers: Object.assign({}, userAnswers, {
-        [answerIndex]: !userAnswers[answerIndex]
-      })
-    }));
-  }
-
-  render() {
-    const {
-      question,
-      handleAnswer,
-      renderAudioPlayer
-    } = this.props;
-    const {userAnswers} = this.state;
-
-    return (
-      <React.Fragment>
-        <h2 className="game__title">Выберите {question.genre} треки</h2>
-        <form
-          className="game__tracks"
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleAnswer(question, userAnswers);
-          }}
-        >
-          {
-            question.answers.map((answer, index) => {
-              return (
-                <div className="track" key={`${answer.genre}-${index}`}>
-                  {
-                    renderAudioPlayer(answer.audioSrc, index)
-                  }
-                  <div className="game__answer">
-                    <input
-                      className="game__input visually-hidden"
-                      type="checkbox"
-                      name="answer"
-                      value={`answer-${index}`}
-                      id={`answer-${index}`}
-                      checked={userAnswers[index]}
-                      onChange={() => {
-                        this._onUserClickHandler(index);
-                      }}
-                    />
-                    <label className="game__check" htmlFor={`answer-${index}`}>Отметить</label>
-                  </div>
+  return (
+    <React.Fragment>
+      <h2 className="game__title">Выберите {question.genre} треки</h2>
+      <form
+        className="game__tracks"
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleAnswer(question, userAnswers);
+        }}
+      >
+        {
+          question.answers.map((answer, index) => {
+            return (
+              <div className="track" key={`${answer.genre}-${index}`}>
+                {
+                  renderAudioPlayer(answer.audioSrc, index)
+                }
+                <div className="game__answer">
+                  <input
+                    className="game__input visually-hidden"
+                    type="checkbox"
+                    name="answer"
+                    value={`answer-${index}`}
+                    id={`answer-${index}`}
+                    checked={userAnswers[index]}
+                    onChange={() => onChooseAnswer(index)}
+                  />
+                  <label className="game__check" htmlFor={`answer-${index}`}>Отметить</label>
                 </div>
-              );
-            })
-          }
+              </div>
+            );
+          })
+        }
 
-          <button className="game__submit button" type="submit">Ответить</button>
-        </form>
-      </React.Fragment>
-    );
-  }
-}
+        <button className="game__submit button" type="submit">Ответить</button>
+      </form>
+    </React.Fragment>
+  );
+};
 
 GenreQuestionScreen.propTypes = {
   question: PropTypes.shape({
@@ -87,7 +62,14 @@ GenreQuestionScreen.propTypes = {
     ).isRequired
   }),
   handleAnswer: PropTypes.func.isRequired,
-  renderAudioPlayer: PropTypes.func.isRequired
+  renderAudioPlayer: PropTypes.func.isRequired,
+  answers: PropTypes.shape({
+    0: PropTypes.bool,
+    1: PropTypes.bool,
+    2: PropTypes.bool,
+    3: PropTypes.bool
+  }).isRequired,
+  onChooseAnswer: PropTypes.func.isRequired
 };
 
-export default GenreQuestionScreen;
+export default React.memo(GenreQuestionScreen);

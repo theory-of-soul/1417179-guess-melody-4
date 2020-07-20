@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` Hoc withAudio snapshot tests MockComponent with HOC 1`] = `
+<div>
+  <audio
+    src=""
+  />
+</div>
+`;

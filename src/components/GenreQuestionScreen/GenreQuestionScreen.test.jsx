@@ -20,6 +20,13 @@ const question = {
   }]
 };
 
+const answers = {
+  0: false,
+  1: false,
+  2: false,
+  3: false
+};
+
 describe(`GenreQuestionScreen snapshot tests`, () => {
   it(`GenreQuestionScreen should render 4 melody`, () => {
     const component = renderer
@@ -28,6 +35,8 @@ describe(`GenreQuestionScreen snapshot tests`, () => {
             question={question}
             handleAnswer={() => {}}
             renderAudioPlayer={() => null}
+            answers={answers}
+            onChooseAnswer={() => null}
           />
       )
       .toJSON();

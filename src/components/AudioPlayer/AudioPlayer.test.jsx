@@ -14,15 +14,19 @@ const options = {
   }
 };
 
+const player = <audio src={src}/>;
+
 describe(`AudioPlayer snapshot tests`, () => {
-  it(`AudioPlayer turn off state`, () => {
+  it(`AudioPlayer is silent and loading`, () => {
     const component = renderer
       .create(
           <AudioPlayer
-            src={src}
             isPlaying={false}
+            isLoading={true}
             handlePlay={() => {}}
-          />,
+          >
+            {player}
+          </AudioPlayer>,
           options
       )
       .toJSON();
@@ -30,14 +34,16 @@ describe(`AudioPlayer snapshot tests`, () => {
     expect(component).toMatchSnapshot();
   });
 
-  it(`AudioPlayer turn on state`, () => {
+  it(`AudioPlayer is playing`, () => {
     const component = renderer
       .create(
           <AudioPlayer
-            src={src}
             isPlaying={true}
+            isLoading={false}
             handlePlay={() => {}}
-          />,
+          >
+            {player}
+          </AudioPlayer>,
           options
       )
       .toJSON();

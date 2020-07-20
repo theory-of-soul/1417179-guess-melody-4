@@ -40,6 +40,8 @@ describe(`GenreQuestionScreen e2e`, () => {
           question={question}
           handleAnswer={mockCallback}
           renderAudioPlayer={() => null}
+          answers={userAnswers}
+          onChooseAnswer={() => null}
         />
     );
 
