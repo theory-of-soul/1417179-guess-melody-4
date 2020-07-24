@@ -12,7 +12,7 @@ import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSe
 import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
 import {actionCreator} from "../../reducers/game/game";
-import {createOperations} from "../../reducers/data/data";
+import {dataOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 import {isUserAuth} from "../../reducers/user/selectors";
@@ -219,7 +219,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreator.resetGame());
     },
     loadQuestions: () => {
-      dispatch(createOperations.loadQuestions());
+      dispatch(dataOperations.loadQuestions());
     },
     loginUser: (email, password) => {
       dispatch(userOperations.login(email, password));

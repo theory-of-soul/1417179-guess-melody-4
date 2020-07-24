@@ -1,4 +1,4 @@
-import {createOperations, data as reducer} from "./data";
+import {dataOperations, data as reducer} from "./data";
 import MockAdapter from "axios-mock-adapter";
 import api from "../../api";
 
@@ -88,7 +88,7 @@ describe(`Game reducer tests`, () => {
     const createdApi = api();
     const apiMock = new MockAdapter(createdApi);
     const dispatch = jest.fn();
-    const questionLoader = createOperations.loadQuestions();
+    const questionLoader = dataOperations.loadQuestions();
 
     apiMock
       .onGet(`/questions`)
