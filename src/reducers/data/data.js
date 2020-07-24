@@ -21,7 +21,7 @@ export const actionCreator = {
   })
 };
 
-export const createOperations = {
+export const dataOperations = {
   loadQuestions: () => (dispatch, getState, api) => {
     return api
       .get(`/questions`)
@@ -29,9 +29,8 @@ export const createOperations = {
         const questions = questionResponseAdapter(response.data);
         dispatch(actionCreator.loadQuestions(questions));
       })
-      .catch((e) => {
+      .catch(() => {
         dispatch(actionCreator.errorLoadQuestion());
-        throw new Error(e);
       });
   }
 };

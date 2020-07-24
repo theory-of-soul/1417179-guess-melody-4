@@ -12,7 +12,7 @@ import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSe
 import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
 import {actionCreator} from "../../reducers/game/game";
-import {createOperations} from "../../reducers/data/data";
+import {dataOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 
@@ -119,8 +119,7 @@ class App extends React.PureComponent {
 
   render() {
     const {
-      questions,
-      hasError
+      questions
     } = this.props;
 
     return (
@@ -207,7 +206,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreator.resetGame());
     },
     loadQuestions: () => {
-      dispatch(createOperations.loadQuestions());
+      dispatch(dataOperations.loadQuestions());
     }
   };
 };
