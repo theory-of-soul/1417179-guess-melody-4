@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import WelcomeScreen from "../WelcomeScreen/WelcomeScreen";
 import ArtistQuestionScreen from "../ArtistQuestionScreen/ArtistQuestionScreen";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
@@ -15,9 +15,11 @@ import {actionCreator} from "../../reducers/game/game";
 import {dataOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
+import history from "../../history";
 import {isUserAuth} from "../../reducers/user/selectors";
 import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
 import {userOperations} from "../../reducers/user/user";
+import {AppUrls} from "../../index";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -60,8 +62,7 @@ class App extends React.PureComponent {
       questions,
       errorAmount,
       hasError,
-      userAlreadyAuth,
-      loginUser
+      userAlreadyAuth
     } = this.props;
 
     if (hasError) {
@@ -81,30 +82,17 @@ class App extends React.PureComponent {
     }
 
     if (userErrors >= errorAmount) {
-      return (
-        <FailScreen onClickReplayHandler={this._onReplayButtonClick}/>
-      );
+      history.push(AppUrls.LOSE);
     }
 
     if (!nextGameQuestion) {
-      return userAlreadyAuth ? (
-        <WinScreen
-          questionAmount={questions.length}
-          errorAmount={userErrors}
-          onClickReplayHandler={this._onReplayButtonClick}
-        />
-      ) : (
-        <AuthorizationScreen
-          onClickReplayHandler={this._onReplayButtonClick}
-          onSubmitHandler={loginUser}
-        />
-      );
+      history.push(userAlreadyAuth ? AppUrls.WIN : AppUrls.AUTH);
     }
 
     if (nextGameQuestion && nextGameQuestion.type) {
       if (nextGameQuestion.type === GameType.ARTIST) {
         return (
-          <GameScreen userErrors={userErrors}>
+          <GameScreen userErrors={userErrors} onBackLinkClickHandler={this._onReplayButtonClick}>
             <ArtistQuestionScreenWithPlayer
               question={questions[step]}
               handleAnswer={this._onUserClickAnswer}
@@ -114,7 +102,7 @@ class App extends React.PureComponent {
       }
       if (nextGameQuestion.type === GameType.GENRE) {
         return (
-          <GameScreen userErrors={userErrors}>
+          <GameScreen userErrors={userErrors} onBackLinkClickHandler={this._onReplayButtonClick}>
             <GenreQuestionScreenWithPlayer
               question={questions[step]}
               handleAnswer={this._onUserClickAnswer}
@@ -130,32 +118,34 @@ class App extends React.PureComponent {
   render() {
     const {
       questions,
+      loginUser,
+      userErrors
     } = this.props;
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path={AppUrls.BASE}>
             {this._getGameScreen()}
           </Route>
-          <Route exact path="/dev-artist">
-            <GameScreen userErrors={1}>
-              <ArtistQuestionScreenWithPlayer
-                question={questions[0]}
-                handleAnswer={this._onUserClickAnswer}
-              />
-            </GameScreen>
+          <Route exact path={AppUrls.LOSE} render={() => (
+            <FailScreen onClickReplayHandler={this._onReplayButtonClick}/>
+          )}/>
+          <Route exact path={AppUrls.AUTH}>
+            <AuthorizationScreen
+              onClickReplayHandler={this._onReplayButtonClick}
+              onSubmitHandler={loginUser}
+            />
           </Route>
-          <Route exact path="/dev-genre">
-            <GameScreen userErrors={2}>
-              <GenreQuestionScreenWithPlayer
-                question={questions[1]}
-                handleAnswer={this._onUserClickAnswer}
-              />
-            </GameScreen>
+          <Route exact path={AppUrls.WIN}>
+            <WinScreen
+              questionAmount={questions.length}
+              errorAmount={userErrors}
+              onClickReplayHandler={this._onReplayButtonClick}
+            />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
