@@ -16,10 +16,11 @@ import {dataOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 import history from "../../history";
-import {isUserAuth} from "../../reducers/user/selectors";
 import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
 import {userOperations} from "../../reducers/user/user";
 import {AppUrls} from "../../index";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import {isUserAuth} from "../../reducers/user/selectors";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -137,13 +138,13 @@ class App extends React.PureComponent {
               onSubmitHandler={loginUser}
             />
           </Route>
-          <Route exact path={AppUrls.WIN}>
+          <PrivateRoute exact path={AppUrls.WIN} render={() => (
             <WinScreen
               questionAmount={questions.length}
               errorAmount={userErrors}
               onClickReplayHandler={this._onReplayButtonClick}
             />
-          </Route>
+          )}/>
         </Switch>
       </Router>
     );

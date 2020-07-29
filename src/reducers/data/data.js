@@ -27,7 +27,7 @@ export const dataOperations = {
       .get(`/questions`)
       .then((response) => {
         const questions = questionResponseAdapter(response.data);
-        dispatch(actionCreator.loadQuestions(questions.splice(0, 1)));
+        dispatch(actionCreator.loadQuestions(questions));
       })
       .catch(() => {
         dispatch(actionCreator.errorLoadQuestion());

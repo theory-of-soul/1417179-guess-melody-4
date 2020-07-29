@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import {AppUrls} from "../../index";
+import history from "../../history";
 
 class AuthorizationScreen extends React.PureComponent {
   constructor(props) {
@@ -21,6 +23,7 @@ class AuthorizationScreen extends React.PureComponent {
   _onClickReplay(e) {
     e.preventDefault();
     this.props.onClickReplayHandler();
+    history.push(AppUrls.BASE);
   }
 
   render() {
