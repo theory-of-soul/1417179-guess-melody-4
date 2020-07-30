@@ -22,13 +22,6 @@ const store = createStore(
 
 store.dispatch(userOperations.checkAuthStatus());
 
-export const AppUrls = {
-  BASE: `/`,
-  AUTH: `/login`,
-  LOSE: `/lose`,
-  WIN: `/result`
-};
-
 ReactDOM.render(
     <Provider store={store}>
       <App/>

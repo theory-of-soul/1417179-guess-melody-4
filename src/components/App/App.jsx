@@ -18,9 +18,9 @@ import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors
 import history from "../../history";
 import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
 import {userOperations} from "../../reducers/user/user";
-import {AppUrls} from "../../index";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import {isUserAuth} from "../../reducers/user/selectors";
+import {AppUrls} from "../../AppUrls";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -70,7 +70,7 @@ class App extends React.PureComponent {
       return (<h1>Server error. Try again later.</h1>);
     }
 
-    const nextGameQuestion = this.props.questions[step];
+    const nextGameQuestion = questions[step];
     const welcomeScreenStepNumber = -1;
 
     if (step === welcomeScreenStepNumber) {
@@ -83,11 +83,11 @@ class App extends React.PureComponent {
     }
 
     if (userErrors >= errorAmount) {
-      history.push(AppUrls.LOSE);
+      return history.push(AppUrls.LOSE);
     }
 
     if (!nextGameQuestion) {
-      history.push(userAlreadyAuth ? AppUrls.WIN : AppUrls.AUTH);
+      return history.push(userAlreadyAuth ? AppUrls.WIN : AppUrls.AUTH);
     }
 
     if (nextGameQuestion && nextGameQuestion.type) {

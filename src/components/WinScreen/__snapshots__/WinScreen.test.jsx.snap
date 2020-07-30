@@ -28,12 +28,12 @@ exports[`WinScreen snapshot tests WinScreen should render 6 questions ant 2 erro
     2
      ошибки
   </p>
-  <button
+  <a
     className="replay"
+    href="/"
     onClick={[Function]}
-    type="button"
   >
     Сыграть ещё раз
-  </button>
+  </a>
 </section>
 `;

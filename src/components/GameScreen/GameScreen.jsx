@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import GameMistakes from "../GameMistakes/GameMistakes";
-import {AppUrls} from "../../index";
+import {AppUrls} from "../../AppUrls";
 import {Link} from "react-router-dom";
 
 const GameScreen = ({children, userErrors, onBackLinkClickHandler}) => {

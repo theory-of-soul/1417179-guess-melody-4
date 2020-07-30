@@ -1,9 +1,9 @@
-import {nameSpaces} from "../nameSpaces";
+import {NameSpaces} from "../nameSpaces";
 import {createSelector} from "reselect";
 import {authorizationStatus} from "./user";
 
 export const getUserAuthStatus = (state) => {
-  return state[nameSpaces.USER].status;
+  return state[NameSpaces.USER].status;
 };
 
 export const isUserAuth = createSelector(

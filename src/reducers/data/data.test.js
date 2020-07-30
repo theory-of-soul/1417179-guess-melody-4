@@ -101,6 +101,7 @@ describe(`Game reducer tests`, () => {
           type: actions.LOAD_QUESTIONS,
           payload: [{fake: true}],
         });
-      });
+      })
+      .catch(() => {});
   });
 });

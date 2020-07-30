@@ -1,9 +1,9 @@
-import {nameSpaces} from "../nameSpaces";
+import {NameSpaces} from "../nameSpaces";
 
 export const getQuestions = (state) => {
-  return state[nameSpaces.DATA].questions;
+  return state[NameSpaces.DATA].questions;
 };
 
 export const getErrorInfo = (state) => {
-  return state[nameSpaces.DATA].hasError;
+  return state[NameSpaces.DATA].hasError;
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {Redirect, Route} from "react-router-dom";
-import {AppUrls} from "../../index";
+import {AppUrls} from "../../AppUrls";
 import {connect} from "react-redux";
 import {isUserAuth} from "../../reducers/user/selectors";
 

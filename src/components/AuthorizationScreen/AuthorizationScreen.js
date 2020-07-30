@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {AppUrls} from "../../index";
+import {AppUrls} from "../../AppUrls";
 import history from "../../history";
 
 class AuthorizationScreen extends React.PureComponent {
