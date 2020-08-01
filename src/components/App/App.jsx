@@ -7,11 +7,14 @@ import GenreQuestionScreen from "../GenreQuestionScreen/GenreQuestionScreen";
 import withAudioPlayer from "../../HOC/withAudioPlayer/withAudioPlayer";
 import GameScreen from "../GameScreen/GameScreen";
 import {connect} from "react-redux";
-import {actionCreator} from "../../reducer";
 import {GameType} from "./GameType";
 import withMultiSelectAnswers from "../../HOC/withMultiSelectAnswers/withMultiSelectAnswers";
 import FailScreen from "../FailScreen/FailScreen";
 import WinScreen from "../WinScreen/WinScreen";
+import {actionCreator} from "../../reducers/game/game";
+import {dataOperations} from "../../reducers/data/data";
+import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
+import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -23,6 +26,10 @@ class App extends React.PureComponent {
     this._getGameScreen = this._getGameScreen.bind(this);
     this._onWelcomeButtonClick = this._onWelcomeButtonClick.bind(this);
     this._onReplayButtonClick = this._onReplayButtonClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadQuestions();
   }
 
   _onWelcomeButtonClick() {
@@ -48,8 +55,13 @@ class App extends React.PureComponent {
       step,
       userErrors,
       questions,
-      errorAmount
+      errorAmount,
+      hasError
     } = this.props;
+
+    if (hasError) {
+      return (<h1>Server error. Try again later.</h1>);
+    }
 
     const nextGameQuestion = this.props.questions[step];
     const welcomeScreenStepNumber = -1;
@@ -167,15 +179,18 @@ App.propTypes = {
   onNextStep: PropTypes.func.isRequired,
   onCheckAnswer: PropTypes.func.isRequired,
   onResetGame: PropTypes.func.isRequired,
-  userErrors: PropTypes.number.isRequired
+  userErrors: PropTypes.number.isRequired,
+  loadQuestions: PropTypes.func.isRequired,
+  hasError: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    step: state.step,
-    userErrors: state.errors,
-    questions: state.questions,
-    errorAmount: state.maxErrors
+    step: getStep(state),
+    userErrors: getUserErrors(state),
+    questions: getQuestions(state),
+    errorAmount: getMaxError(state),
+    hasError: getErrorInfo(state)
   };
 };
 
@@ -189,6 +204,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onResetGame: () => {
       dispatch(actionCreator.resetGame());
+    },
+    loadQuestions: () => {
+      dispatch(dataOperations.loadQuestions());
     }
   };
 };

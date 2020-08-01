@@ -1,4 +1,12 @@
-export default [{
+import {dataOperations, data as reducer} from "./data";
+import MockAdapter from "axios-mock-adapter";
+import api from "../../api";
+
+const actions = {
+  LOAD_QUESTIONS: `LOAD_QUESTIONS`
+};
+
+const questions = [{
   type: `artist`,
   rightAnswer: `Illenium`,
   audioSrc: `music/illenium_-_dont-give-up-on-me.mp3`,
@@ -57,3 +65,44 @@ export default [{
     name: `Illenium`
   }]
 }];
+
+const initialState = {
+  questions: []
+};
+
+
+describe(`Game reducer tests`, () => {
+  it(`reducer without parameters return initialState`, () => {
+    expect(reducer(undefined, {})).toMatchObject(initialState);
+  });
+
+  it(`loaded questions added to store`, () => {
+    expect(reducer(initialState, {
+      type: actions.LOAD_QUESTIONS,
+      payload: questions
+    })).toMatchObject({
+      questions
+    });
+  });
+
+  it(`question loader works correct`, () => {
+    const createdApi = api();
+    const apiMock = new MockAdapter(createdApi);
+    const dispatch = jest.fn();
+    const questionLoader = dataOperations.loadQuestions();
+
+    apiMock
+      .onGet(`/questions`)
+      .reply(200, [{fake: true}]);
+
+    questionLoader(dispatch, () => {}, createdApi)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: actions.LOAD_QUESTIONS,
+          payload: [{fake: true}],
+        });
+      })
+      .catch(() => {});
+  });
+});

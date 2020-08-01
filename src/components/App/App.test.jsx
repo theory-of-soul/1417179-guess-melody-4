@@ -47,6 +47,8 @@ describe(`App snapshot tests`, () => {
             onCheckAnswer={() => {}}
             userErrors={0}
             onResetGame={() => {}}
+            loadQuestions={() => {}}
+            hasError={false}
           />
       )
       .toJSON();
