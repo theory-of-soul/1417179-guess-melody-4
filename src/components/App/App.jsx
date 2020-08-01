@@ -129,7 +129,7 @@ class App extends React.PureComponent {
 
   render() {
     const {
-      questions,
+      questions
     } = this.props;
 
     return (
