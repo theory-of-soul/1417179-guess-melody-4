@@ -1,4 +1,5 @@
 export const nameSpaces = {
   DATA: `data`,
-  GAME: `game`
+  GAME: `game`,
+  USER: `user`
 };

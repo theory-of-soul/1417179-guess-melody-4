@@ -47,8 +47,32 @@ describe(`App snapshot tests`, () => {
             onCheckAnswer={() => {}}
             userErrors={0}
             onResetGame={() => {}}
+            hasError={false}
+            loadQuestions={() => {}}
+            userAlreadyAuth={false}
+            loginUser={() => {}}
+          />
+      )
+      .toJSON();
+
+    expect(component).toMatchSnapshot();
+  });
+
+  it(`App should show Auth screen`, () => {
+    const component = renderer
+      .create(
+          <App
+            errorAmount={errorAmounts}
+            questions={questions}
+            step={questions.length}
+            onNextStep={() => {}}
+            onCheckAnswer={() => {}}
+            userErrors={1}
+            onResetGame={() => {}}
             loadQuestions={() => {}}
             hasError={false}
+            userAlreadyAuth={false}
+            loginUser={() => {}}
           />
       )
       .toJSON();

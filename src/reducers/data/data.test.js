@@ -70,7 +70,6 @@ const initialState = {
   questions: []
 };
 
-
 describe(`Game reducer tests`, () => {
   it(`reducer without parameters return initialState`, () => {
     expect(reducer(undefined, {})).toMatchObject(initialState);

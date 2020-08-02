@@ -15,6 +15,9 @@ import {actionCreator} from "../../reducers/game/game";
 import {dataOperations} from "../../reducers/data/data";
 import {getErrorInfo, getQuestions} from "../../reducers/data/selectors";
 import {getMaxError, getStep, getUserErrors} from "../../reducers/game/selectors";
+import {isUserAuth} from "../../reducers/user/selectors";
+import AuthorizationScreen from "../AuthorizationScreen/AuthorizationScreen";
+import {userOperations} from "../../reducers/user/user";
 
 const GenreQuestionScreenWithPlayer = withAudioPlayer(withMultiSelectAnswers(GenreQuestionScreen));
 const ArtistQuestionScreenWithPlayer = withAudioPlayer(ArtistQuestionScreen);
@@ -56,7 +59,9 @@ class App extends React.PureComponent {
       userErrors,
       questions,
       errorAmount,
-      hasError
+      hasError,
+      userAlreadyAuth,
+      loginUser
     } = this.props;
 
     if (hasError) {
@@ -82,11 +87,16 @@ class App extends React.PureComponent {
     }
 
     if (!nextGameQuestion) {
-      return (
+      return userAlreadyAuth ? (
         <WinScreen
           questionAmount={questions.length}
           errorAmount={userErrors}
           onClickReplayHandler={this._onReplayButtonClick}
+        />
+      ) : (
+        <AuthorizationScreen
+          onClickReplayHandler={this._onReplayButtonClick}
+          onSubmitHandler={loginUser}
         />
       );
     }
@@ -181,7 +191,9 @@ App.propTypes = {
   onResetGame: PropTypes.func.isRequired,
   userErrors: PropTypes.number.isRequired,
   loadQuestions: PropTypes.func.isRequired,
-  hasError: PropTypes.bool.isRequired
+  hasError: PropTypes.bool.isRequired,
+  userAlreadyAuth: PropTypes.bool.isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -190,7 +202,8 @@ const mapStateToProps = (state) => {
     userErrors: getUserErrors(state),
     questions: getQuestions(state),
     errorAmount: getMaxError(state),
-    hasError: getErrorInfo(state)
+    hasError: getErrorInfo(state),
+    userAlreadyAuth: isUserAuth(state)
   };
 };
 
@@ -207,6 +220,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadQuestions: () => {
       dispatch(dataOperations.loadQuestions());
+    },
+    loginUser: (email, password) => {
+      dispatch(userOperations.login(email, password));
     }
   };
 };
